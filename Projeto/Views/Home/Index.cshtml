@@ -1,14 +1,43 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<style>
-    h1{
-        color: orange
-    }
-</style>
-
-<div class="text-center">
 
 
+<html>
+<head>
+    <title>ViaCEP Webservice</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-</div>
+    <!-- Adicionando Javascript -->
+    <script>
+
+        function retornaInfo() {
+            var nameCard = document.getElementById("nome").value
+            $.ajax({
+                url: 'https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + nameCard ,
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data.data[0])
+                    document.getElementById("descricaoCard").innerHTML  = data.data[0].desc
+                    document.getElementById("imagem").setAttribute('src',  data.data[0].card_images[0].image_url )
+                }
+            });
+        }
+
+    </script>
+</head>
+
+<body>
+    <!-- Inicio do formulario -->
+    <form method="get" action=".">
+
+        <button type="button" class="btn btn-danger" onclick="retornaInfo()">Botão</button>
+        <br />
+        <input type="text" id="nome" placeholder="..."/><br />
+        <img class="img-fluid" id="imagem" alt="" style="max-width: 32% !important"><br />
+        <textarea id="descricaoCard"></textarea>
+    </form>
+</body>
+
+</html>
